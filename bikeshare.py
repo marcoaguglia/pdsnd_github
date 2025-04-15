@@ -175,7 +175,7 @@ def user_stats(df):
 
     # TO DO: Display counts of user types
     type_counts = df['User Type'].value_counts()
-
+    print (f"\ncounts of user types: {type_counts}")
     try:
         # TO DO: Display counts of gender
         gender_counts = df['Gender'].value_counts()
@@ -184,23 +184,31 @@ def user_stats(df):
         earliest_year = int(df['Birth Year'].min()) 
         most_recent_year = int(df['Birth Year'].max())
         most_common_year = int(df['Birth Year'].mode()[0])
-        print (f"\ncounts of user types: {type_counts}")
-        print (f"\ncounts of gender: {gender_counts}")
+        
         print (f"\nearliest year of birth: {earliest_year}")
         print (f"\nmost recent year of birth: {most_recent_year}")
         print (f"\nmost common year of birth: {most_common_year}")
     except KeyError:
-        print("Not Available")
+        print("Gender & Birth Year not available for this city...")
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
+def display_head(df):
+    """Display 5 rows of raw data """
+    row = 0
+    while True:
+        ans = input("\nWould you like to see 5 lines of raw data?  yes/no: ").strip().lower()
+        if ans != 'yes':
+            break
+        print(df.iloc[row:row+5])
+        row += 5
 
 def main():
     while True:
         city, month, day = get_filters()
         df = load_data(city, month, day)
-
+        display_head(df)
         time_stats(df)
         station_stats(df)
         trip_duration_stats(df)
